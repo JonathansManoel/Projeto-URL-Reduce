@@ -14,7 +14,7 @@ def relatorios(requisicao, slug):
     }
     return render(requisicao, 'encurtador/relatorio.html', contexto)
 
-
+  
 def redirecionar(requisicao, slug):
     url_redirect = UrlRedirect.objects.get(slug=slug)
     return redirect(url_redirect.destino)
