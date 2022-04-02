@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import os
 from pathlib import Path
+from decouple import config, Csv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-$0j#ha)9z!7b(x-(o(0!8w8ioibq+so5^fe_hv*m4oxd_$&!8_'
-
+SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = config('DEBUG', cast=bool)
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'https://fast-mesa-99611.herokuapp.com/']
+# ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'fast-mesa-99611.herokuapp.com/']
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
 
 # Application definition
@@ -51,7 +52,7 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
 ROOT_URLCONF = 'urlreduce.urls'
 
@@ -77,7 +78,7 @@ WSGI_APPLICATION = 'urlreduce.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-database_url = os.environ.get('DATABASE_URL')
+database_url = config('DATABASE_URL')
 
 if database_url is None:
     DATABASES = {
@@ -87,7 +88,7 @@ if database_url is None:
         }
     }
 else:
-    database_url = database_url.replace('postgress://', '')
+    database_url = database_url.replace('postgres://', '')
     credenciais, url = database_url.split('@')
     usuario, senha = credenciais.split(':')
     dominio_porta, banco_de_dados = url.split('/')
@@ -137,15 +138,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_URL = 'static/'
 STATIC_ROOT = str(BASE_DIR / 'staticfiles')
+STATICFILES_DIRS = (
+    str(BASE_DIR / 'urlreduce/encurtador/static/encurtador/'),
+    )
 
 
 #Extra places for collectstatic to find static files.
-STATICFILES_DIRS = (
-    str(BASE_DIR / 'static'),
-    )
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
