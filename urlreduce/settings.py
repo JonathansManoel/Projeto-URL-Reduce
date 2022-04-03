@@ -141,9 +141,9 @@ USE_TZ = True
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_URL = 'static/'
 STATIC_ROOT = str(BASE_DIR / 'staticfiles')
-# STATICFILES_DIRS = (
-#     str(BASE_DIR / 'urlreduce/encurtador/static/encurtador/'),
-#     )
+STATICFILES_DIRS = (
+    str(BASE_DIR / 'urlreduce/encurtador/static/encurtador/'),
+    )
 
 
 #Extra places for collectstatic to find static files.
